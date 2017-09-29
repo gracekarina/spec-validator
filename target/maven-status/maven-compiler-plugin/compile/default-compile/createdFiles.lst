@@ -1,0 +1,6 @@
+io/swagger/models/ValidationResponse.class
+io/swagger/models/Instance.class
+io/swagger/handler/ValidatorController$1.class
+io/swagger/handler/ValidatorController.class
+io/swagger/models/SchemaValidationError.class
+io/swagger/models/Schema.class

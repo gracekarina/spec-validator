@@ -1,5 +1,5 @@
-/Users/gracekarina/repo/new-validator/src/main/java/io/swagger/handler/ValidatorController.java
-/Users/gracekarina/repo/new-validator/src/main/java/io/swagger/models/Instance.java
-/Users/gracekarina/repo/new-validator/src/main/java/io/swagger/models/Schema.java
-/Users/gracekarina/repo/new-validator/src/main/java/io/swagger/models/SchemaValidationError.java
-/Users/gracekarina/repo/new-validator/src/main/java/io/swagger/models/ValidationResponse.java
+/Users/gracekarina/repo/spec-validator/src/main/java/io/swagger/models/Instance.java
+/Users/gracekarina/repo/spec-validator/src/main/java/io/swagger/models/SchemaValidationError.java
+/Users/gracekarina/repo/spec-validator/src/main/java/io/swagger/handler/ValidatorController.java
+/Users/gracekarina/repo/spec-validator/src/main/java/io/swagger/models/Schema.java
+/Users/gracekarina/repo/spec-validator/src/main/java/io/swagger/models/ValidationResponse.java

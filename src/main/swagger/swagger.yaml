@@ -27,9 +27,9 @@ paths:
         '200':
           description: successfully validated schema
           content:
-            "application/json":
+            "image/png":
               schema:
-                type: object
+                type: string
                 properties: {}
             "application/yaml":
               schema:

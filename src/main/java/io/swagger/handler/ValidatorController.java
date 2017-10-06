@@ -10,14 +10,16 @@ import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import io.swagger.oas.inflector.models.RequestContext;
 import io.swagger.oas.inflector.models.ResponseContext;
-import io.swagger.parser.SwaggerParser;
+//import io.swagger.parser.SwaggerParser;
+import io.swagger.parser.models.ParseOptions;
 import io.swagger.parser.models.SwaggerParseResult;
-import io.swagger.parser.util.SwaggerDeserializationResult;
+//import io.swagger.parser.util.SwaggerDeserializationResult;
 import io.swagger.parser.v3.OpenAPIV3Parser;
 import io.swagger.util.Json;
 import io.swagger.util.Yaml;
 import io.swagger.models.SchemaValidationError;
 import io.swagger.models.ValidationResponse;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import org.apache.http.HttpEntity;
@@ -67,34 +69,67 @@ public class ValidatorController{
 
 
     public ResponseContext validateByUrl(RequestContext request , String url) {
-        System.out.println("entró");
 
         if(url == null) {
             return new ResponseContext()
                     .status(Response.Status.BAD_REQUEST)
                     .entity( "No specification supplied in either the url or request body.  Try again?" );
         }
+
+        //TODO
+        // 1. Get Version of the URL OR CONTENT
+        // 2. Call SwaggerParser for 2.x or OpenAPIV3Parser for 3.0 and validate messages of parser
+        // 3. Validate JSON SCHEMA accordingly
+        // 4. Return answer valid(Image) if messages in parser and JsonSchemaValidator are null
+        // 5. Return Invalid(Image) if messages in parser and JsonSchemaValidator are not null
+        // 6. Do the same fot debugByUrl and debugByContent but returning a Json with error messages instead of an image
+
         SwaggerParseResult output = new OpenAPIV3Parser().readLocation(url, null, null);
+
+        if(output == null) {
+            return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
+        }
+
+        if(output.getOpenAPI() == null) {
+            return new ResponseContext().status(Response.Status.BAD_REQUEST).entity(output.getMessages());
+        }
+
+        //validate JSON-Schema
+
+        if (output.getMessages() == null  || output.getMessages().size() == 0 /*jsonSchema.getMessages() == null */ ){
+            return new ResponseContext()
+                    .contentType("image/png")
+                    .entity(this.getClass().getClassLoader().getResourceAsStream("valid.png"));
+        }else{
+            System.out.println(output.getMessages());
+            return new ResponseContext()
+                    .contentType("image/png")
+                    .entity(this.getClass().getClassLoader().getResourceAsStream("invalid.png"));
+        }
+
+    }
+
+    public ResponseContext validateByContent(RequestContext request, JsonNode inputSpec) {
+        if(inputSpec == null) {
+            return new ResponseContext()
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity( "No specification supplied in either the url or request body.  Try again?" );
+        }
+        String inputAsString = Json.pretty(inputSpec);
+        SwaggerParseResult output = new OpenAPIV3Parser().readContents(inputAsString, null, null);
         if(output == null) {
             return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
         }
         if(output.getOpenAPI() == null) {
             return new ResponseContext().status(Response.Status.BAD_REQUEST).entity(output.getMessages());
         }
-        if (output.getMessages() == null ){
-            MediaType outputType = getMediaType(request);
 
-            return new ResponseContext()
-                    .contentType(outputType)
-                    .entity(output.getOpenAPI());
-        }else{
-            MediaType outputType = getMediaType(request);
 
-            return new ResponseContext()
-                    .contentType(outputType)
-                    .entity(output.getOpenAPI());
-        }
+        MediaType outputType = getMediaType(request);
 
+        return new ResponseContext()
+                .contentType(outputType)
+                .entity("invalid.png");
     }
 
     private MediaType getMediaType(RequestContext request) {
@@ -198,12 +233,12 @@ public class ValidatorController{
                 }
             }
         }else if (specVersion.equals("2.0")) {
-            SwaggerDeserializationResult result = readSwagger(content);
+           /* SwaggerDeserializationResult result = readSwagger(content);
             if (result != null) {
                 for (String message : result.getMessages()) {
                     output.addMessage(message);
                 }
-            }
+            }*/
         }
         // do actual JSON schema validation
         JsonNode schemaObject = JsonMapper.readTree(getSchema());
@@ -215,7 +250,7 @@ public class ValidatorController{
 
         if (report.isSuccess()) {
             try {
-                readSwagger(content);
+                //readSwagger(content);
             } catch (IllegalArgumentException e) {
                 LOGGER.debug("can't read swagger contents", e);
 
@@ -273,12 +308,12 @@ public class ValidatorController{
                 }
             }
         }else if (specVersion.equals("2.0")) {
-            SwaggerDeserializationResult result = readSwagger(content);
+            /*SwaggerDeserializationResult result = readSwagger(content);
             if (result != null) {
                 for (String message : result.getMessages()) {
                     output.addMessage(message);
                 }
-            }
+            }*/
         }
 
         // do actual JSON schema validation
@@ -288,7 +323,7 @@ public class ValidatorController{
 
         if (report.isSuccess()) {
             try {
-                readSwagger(content);
+                //readSwagger(content);
             } catch (IllegalArgumentException e) {
                 LOGGER.debug("can't read swagger contents", e);
 
@@ -325,7 +360,7 @@ public class ValidatorController{
     }
 
     private void writeToResponse(ResponseContext response, String name) {
-        //response.setHeaders(new javax.ws.rs.core.MultivaluedHashMap<>().("Content-Type", "image/png"));
+        //response.setHeaders("Content-Type", "image/png");
         try {
             InputStream is = this.getClass().getClassLoader().getResourceAsStream(name);
             if (is != null) {
@@ -436,10 +471,10 @@ public class ValidatorController{
 
     }
 
-    private SwaggerDeserializationResult readSwagger(String content) throws IllegalArgumentException {
+    /*private SwaggerDeserializationResult readSwagger(String content) throws IllegalArgumentException {
         SwaggerParser parser = new SwaggerParser();
         return parser.readWithInfo(content);
-    }
+    }*/
 
     private JsonNode readNode(String text) {
         try {

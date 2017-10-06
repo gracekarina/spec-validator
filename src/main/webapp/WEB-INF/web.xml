@@ -10,14 +10,14 @@
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>
-                com.fasterxml.jackson.jaxrs.yaml.JacksonYAMLProvider
+                com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider
             </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>swagger-inflector</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
     <filter>
         <filter-name>CORSFilter</filter-name>

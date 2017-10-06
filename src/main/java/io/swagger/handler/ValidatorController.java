@@ -80,11 +80,11 @@ public class ValidatorController{
         // 1. Get Version of the URL OR CONTENT
         // 2. Call SwaggerParser for 2.x or OpenAPIV3Parser for 3.0 and validate messages of parser
         // 3. Validate JSON SCHEMA accordingly
-        // 4. Return answer valid(Image) if messages in parser and JsonSchemaValidator are null
-        // 5. Return Invalid(Image) if messages in parser and JsonSchemaValidator are not null
+        // 4. Return answer valid(Image) if messages in parser and JsonSchemaValidator are null or 0
+        // 5. Return Invalid(Image) if messages in parser and JsonSchemaValidator are not null and > 0
         // 6. Do the same fot debugByUrl and debugByContent but returning a Json with error messages instead of an image
 
-        SwaggerParseResult output = new OpenAPIV3Parser().readLocation(url, null, null);
+        /*SwaggerParseResult output = new OpenAPIV3Parser().readLocation(url, null, null);
 
         if(output == null) {
             return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
@@ -92,20 +92,73 @@ public class ValidatorController{
 
         if(output.getOpenAPI() == null) {
             return new ResponseContext().status(Response.Status.BAD_REQUEST).entity(output.getMessages());
-        }
+        }*/
 
         //validate JSON-Schema
+        ValidationResponse validationResponse = null;
+        try {
+            validationResponse = debugByUrl(request, url);
+        }catch (Exception e){
+            return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
+        }
 
-        if (output.getMessages() == null  || output.getMessages().size() == 0 /*jsonSchema.getMessages() == null */ ){
+        if (validationResponse == null){
+            return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
+        }
+
+        if (/*output.getMessages() == null  || output.getMessages().size() == 0 || */validationResponse.getMessages() == null || validationResponse.getMessages().size() == 0  ){
             return new ResponseContext()
                     .contentType("image/png")
                     .entity(this.getClass().getClassLoader().getResourceAsStream("valid.png"));
         }else{
-            System.out.println(output.getMessages());
+            for(String message : validationResponse.getMessages()) {
+                if(!message.endsWith("is unsupported")) {
+                    return new ResponseContext()
+                            .contentType("image/png")
+                            .entity(this.getClass().getClassLoader().getResourceAsStream("valid.png"));
+                }
+            }
             return new ResponseContext()
                     .contentType("image/png")
                     .entity(this.getClass().getClassLoader().getResourceAsStream("invalid.png"));
         }
+
+    }
+
+    public ResponseContext reviewByUrl(RequestContext request , String url) {
+
+        if(url == null) {
+            return new ResponseContext()
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity( "No specification supplied in either the url or request body.  Try again?" );
+        }
+
+        /*SwaggerParseResult output = new OpenAPIV3Parser().readLocation(url, null, null);
+
+        if(output == null) {
+            return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
+        }
+
+        if(output.getOpenAPI() == null) {
+            return new ResponseContext().status(Response.Status.BAD_REQUEST).entity(output.getMessages());
+        }*/
+
+        //validate JSON-Schema
+        ValidationResponse validationResponse = null;
+        try {
+            validationResponse = debugByUrl(request, url);
+        }catch (Exception e){
+            return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
+        }
+
+        if (validationResponse == null){
+            return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
+        }
+
+        return new ResponseContext()
+                .contentType("application/json")
+                .entity(validationResponse.getMessages());
+
 
     }
 
@@ -116,44 +169,70 @@ public class ValidatorController{
                     .entity( "No specification supplied in either the url or request body.  Try again?" );
         }
         String inputAsString = Json.pretty(inputSpec);
-        SwaggerParseResult output = new OpenAPIV3Parser().readContents(inputAsString, null, null);
+        /*SwaggerParseResult output = new OpenAPIV3Parser().readContents(inputAsString, null, null);
         if(output == null) {
             return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
         }
         if(output.getOpenAPI() == null) {
             return new ResponseContext().status(Response.Status.BAD_REQUEST).entity(output.getMessages());
+        }*/
+        //validate JSON-Schema
+        ValidationResponse validationResponse = null;
+        try {
+            validationResponse = debugByContent(request ,inputAsString);
+        }catch (Exception e){
+            return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
+        }
+
+        if (validationResponse == null){
+            return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
         }
 
 
-        MediaType outputType = getMediaType(request);
+        if (/*output.getMessages() == null  || output.getMessages().size() == 0 || */validationResponse.getMessages() == null || validationResponse.getMessages().size() == 0  ){
+            return new ResponseContext()
+                    .contentType("image/png")
+                    .entity(this.getClass().getClassLoader().getResourceAsStream("valid.png"));
+        }else{
+            return new ResponseContext()
+                    .contentType("image/png")
+                    .entity(this.getClass().getClassLoader().getResourceAsStream("invalid.png"));
+        }
+    }
+
+    public ResponseContext reviewByContent(RequestContext request, JsonNode inputSpec) {
+        if(inputSpec == null) {
+            return new ResponseContext()
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity( "No specification supplied in either the url or request body.  Try again?" );
+        }
+        String inputAsString = Json.pretty(inputSpec);
+        /*SwaggerParseResult output = new OpenAPIV3Parser().readContents(inputAsString, null, null);
+        if(output == null) {
+            return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
+        }
+        if(output.getOpenAPI() == null) {
+            return new ResponseContext().status(Response.Status.BAD_REQUEST).entity(output.getMessages());
+        }*/
+        //validate JSON-Schema
+        ValidationResponse validationResponse = null;
+        try {
+            validationResponse = debugByContent(request ,inputAsString);
+        }catch (Exception e){
+            return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
+        }
+
+        if (validationResponse == null){
+            return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
+        }
+
+
 
         return new ResponseContext()
-                .contentType(outputType)
-                .entity("invalid.png");
+                .contentType("application/json")
+                .entity(validationResponse.getMessages());
     }
 
-    private MediaType getMediaType(RequestContext request) {
-        MediaType outputType = MediaType.APPLICATION_JSON_TYPE;
-
-        boolean isJsonOK = false;
-        boolean isYamlOK = false;
-
-        MediaType yamlMediaType = new MediaType("application", "yaml");
-
-        for (MediaType mediaType : request.getAcceptableMediaTypes()) {
-            if (mediaType.equals(MediaType.APPLICATION_JSON_TYPE)) {
-                isJsonOK = true;
-            } else if (mediaType.equals(yamlMediaType)) {
-                isYamlOK = true;
-            }
-        }
-
-        if (isYamlOK && !isJsonOK) {
-            outputType = yamlMediaType;
-        }
-
-        return outputType;
-    }
 
 
 
@@ -270,7 +349,7 @@ public class ValidatorController{
         return output;
     }
 
-    public ValidationResponse debugByContent(HttpServletRequest request, HttpServletResponse response, String content) throws Exception {
+    public ValidationResponse debugByContent(RequestContext request, String content) throws Exception {
 
         ValidationResponse output = new ValidationResponse();
 
@@ -343,33 +422,6 @@ public class ValidatorController{
         return output;
     }
 
-    private void success(ResponseContext response) {
-        writeToResponse(response, "valid.png");
-    }
-
-    private void error(ResponseContext response) {
-        writeToResponse(response, "error.png");
-    }
-
-    private void fail(ResponseContext response) {
-        writeToResponse(response, "invalid.png");
-    }
-
-    private void upgrade(ResponseContext response) {
-        writeToResponse(response, "upgrade.png");
-    }
-
-    private void writeToResponse(ResponseContext response, String name) {
-        //response.setHeaders("Content-Type", "image/png");
-        try {
-            InputStream is = this.getClass().getClassLoader().getResourceAsStream(name);
-            if (is != null) {
-                //IOUtils.copy(is, response.getOutputStream());
-            }
-        } catch (Exception e) {
-            LOGGER.error("can't send response image", e);
-        }
-    }
 
     private String getSchema() throws Exception {
         /*if (CACHED_SCHEMA != null && (System.currentTimeMillis() - LAST_FETCH) < 600000) {

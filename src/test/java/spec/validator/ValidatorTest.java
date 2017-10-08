@@ -29,6 +29,20 @@ public class ValidatorTest {
 
 
     @Test
+    public void testValidateValidJsonSchema() throws Exception {
+
+
+    }
+
+    @Test
+    public void testValidateInvalidJsonSchema() throws Exception {
+
+
+    }
+
+
+
+    @Test
     public void testValidateValidSpecByUrl() throws Exception {
 
 

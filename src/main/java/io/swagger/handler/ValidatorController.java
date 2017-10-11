@@ -37,9 +37,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.MediaType;
+
 import javax.ws.rs.core.Response;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -50,6 +48,8 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ValidatorController{
@@ -84,17 +84,6 @@ public class ValidatorController{
         // 5. Return Invalid(Image) if messages in parser and JsonSchemaValidator are not null and > 0
         // 6. Do the same fot debugByUrl and debugByContent but returning a Json with error messages instead of an image
 
-        /*SwaggerParseResult output = new OpenAPIV3Parser().readLocation(url, null, null);
-
-        if(output == null) {
-            return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
-        }
-
-        if(output.getOpenAPI() == null) {
-            return new ResponseContext().status(Response.Status.BAD_REQUEST).entity(output.getMessages());
-        }*/
-
-        //validate JSON-Schema
         ValidationResponse validationResponse = null;
         try {
             validationResponse = debugByUrl(request, url);
@@ -106,18 +95,36 @@ public class ValidatorController{
             return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
         }
 
-        if (/*output.getMessages() == null  || output.getMessages().size() == 0 || */validationResponse.getMessages() == null || validationResponse.getMessages().size() == 0  ){
+        boolean valid = true;
+        List messages = new ArrayList<>();
+
+        if (validationResponse.getMessages() != null) {
+            for (String message : validationResponse.getMessages()) {
+                if (message != null) {
+                    messages.add(message);
+                    if(message.endsWith("is unsupported")) {
+                        valid = true;
+                    }else{
+                        valid = false;
+                    }
+                }
+            }
+        }
+        if (validationResponse.getSchemaValidationMessages() != null) {
+            for (SchemaValidationError error : validationResponse.getSchemaValidationMessages()) {
+                if (error != null) {
+                    messages.add(error.getMessage());
+                    valid= false;
+                }
+            }
+        }
+
+
+        if (valid == true ){
             return new ResponseContext()
                     .contentType("image/png")
                     .entity(this.getClass().getClassLoader().getResourceAsStream("valid.png"));
         }else{
-            for(String message : validationResponse.getMessages()) {
-                if(!message.endsWith("is unsupported")) {
-                    return new ResponseContext()
-                            .contentType("image/png")
-                            .entity(this.getClass().getClassLoader().getResourceAsStream("valid.png"));
-                }
-            }
             return new ResponseContext()
                     .contentType("image/png")
                     .entity(this.getClass().getClassLoader().getResourceAsStream("invalid.png"));
@@ -133,17 +140,6 @@ public class ValidatorController{
                     .entity( "No specification supplied in either the url or request body.  Try again?" );
         }
 
-        /*SwaggerParseResult output = new OpenAPIV3Parser().readLocation(url, null, null);
-
-        if(output == null) {
-            return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
-        }
-
-        if(output.getOpenAPI() == null) {
-            return new ResponseContext().status(Response.Status.BAD_REQUEST).entity(output.getMessages());
-        }*/
-
-        //validate JSON-Schema
         ValidationResponse validationResponse = null;
         try {
             validationResponse = debugByUrl(request, url);
@@ -155,11 +151,27 @@ public class ValidatorController{
             return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
         }
 
+
+        List messages = new ArrayList<>();
+
+        if (validationResponse.getMessages() != null) {
+            for (String message : validationResponse.getMessages()) {
+                if (message != null) {
+                    messages.add(message);
+                }
+            }
+        }
+        if (validationResponse.getSchemaValidationMessages() != null) {
+            for (SchemaValidationError error : validationResponse.getSchemaValidationMessages()) {
+                if (error != null) {
+                    messages.add(error.getMessage());
+                }
+            }
+        }
+
         return new ResponseContext()
                 .contentType("application/json")
-                .entity(validationResponse.getMessages());
-
-
+                .entity(messages);
     }
 
     public ResponseContext validateByContent(RequestContext request, JsonNode inputSpec) {
@@ -169,14 +181,7 @@ public class ValidatorController{
                     .entity( "No specification supplied in either the url or request body.  Try again?" );
         }
         String inputAsString = Json.pretty(inputSpec);
-        /*SwaggerParseResult output = new OpenAPIV3Parser().readContents(inputAsString, null, null);
-        if(output == null) {
-            return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
-        }
-        if(output.getOpenAPI() == null) {
-            return new ResponseContext().status(Response.Status.BAD_REQUEST).entity(output.getMessages());
-        }*/
-        //validate JSON-Schema
+
         ValidationResponse validationResponse = null;
         try {
             validationResponse = debugByContent(request ,inputAsString);
@@ -189,7 +194,32 @@ public class ValidatorController{
         }
 
 
-        if (/*output.getMessages() == null  || output.getMessages().size() == 0 || */validationResponse.getMessages() == null || validationResponse.getMessages().size() == 0  ){
+        boolean valid = true;
+        List messages = new ArrayList<>();
+
+        if (validationResponse.getMessages() != null) {
+            for (String message : validationResponse.getMessages()) {
+                if (message != null) {
+                    messages.add(message);
+                    if(message.endsWith("is unsupported")) {
+                        valid = true;
+                    }else{
+                        valid = false;
+                    }
+                }
+            }
+        }
+        if (validationResponse.getSchemaValidationMessages() != null) {
+            for (SchemaValidationError error : validationResponse.getSchemaValidationMessages()) {
+                if (error != null) {
+                    messages.add(error.getMessage());
+                    valid= false;
+                }
+            }
+        }
+
+
+        if (valid == true ){
             return new ResponseContext()
                     .contentType("image/png")
                     .entity(this.getClass().getClassLoader().getResourceAsStream("valid.png"));
@@ -207,14 +237,7 @@ public class ValidatorController{
                     .entity( "No specification supplied in either the url or request body.  Try again?" );
         }
         String inputAsString = Json.pretty(inputSpec);
-        /*SwaggerParseResult output = new OpenAPIV3Parser().readContents(inputAsString, null, null);
-        if(output == null) {
-            return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
-        }
-        if(output.getOpenAPI() == null) {
-            return new ResponseContext().status(Response.Status.BAD_REQUEST).entity(output.getMessages());
-        }*/
-        //validate JSON-Schema
+
         ValidationResponse validationResponse = null;
         try {
             validationResponse = debugByContent(request ,inputAsString);
@@ -226,11 +249,29 @@ public class ValidatorController{
             return new ResponseContext().status(Response.Status.INTERNAL_SERVER_ERROR).entity( "Failed to process URL" );
         }
 
+        List messages = new ArrayList<>();
+        if (validationResponse.getMessages() != null) {
+            for (String message : validationResponse.getMessages()) {
+                if (message != null) {
+                    messages.add(message);
+                }
+
+            }
+        }
+        if (validationResponse.getSchemaValidationMessages() != null) {
+            for (SchemaValidationError error : validationResponse.getSchemaValidationMessages()) {
+                if (error != null) {
+                    messages.add(error.getMessage());
+                }
+            }
+        }
 
 
         return new ResponseContext()
                 .contentType("application/json")
-                .entity(validationResponse.getMessages());
+                .entity(messages);
+
+
     }
 
 

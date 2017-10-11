@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="8" passed="8">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Surefire suite" duration-ms="9825" started-at="2017-10-11T00:23:06Z" finished-at="2017-10-11T00:23:16Z">
+    <groups>
+    </groups>
+    <test name="Surefire test" duration-ms="9825" started-at="2017-10-11T00:23:06Z" finished-at="2017-10-11T00:23:16Z">
+      <class name="spec.validator.ValidatorTest">
+        <test-method status="PASS" signature="setUpWireMockServer()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="setUpWireMockServer" is-config="true" duration-ms="6378" started-at="2017-10-10T19:23:06Z" finished-at="2017-10-10T19:23:12Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpWireMockServer -->
+        <test-method status="PASS" signature="testDebugInvalidSpecByContent()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="testDebugInvalidSpecByContent" duration-ms="1509" started-at="2017-10-10T19:23:12Z" finished-at="2017-10-10T19:23:14Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testDebugInvalidSpecByContent -->
+        <test-method status="PASS" signature="testDebugInvalidSpecByUrl()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="testDebugInvalidSpecByUrl" duration-ms="272" started-at="2017-10-10T19:23:14Z" finished-at="2017-10-10T19:23:14Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testDebugInvalidSpecByUrl -->
+        <test-method status="PASS" signature="testDebugValidSpecByContent()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="testDebugValidSpecByContent" duration-ms="300" started-at="2017-10-10T19:23:14Z" finished-at="2017-10-10T19:23:14Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testDebugValidSpecByContent -->
+        <test-method status="PASS" signature="testDebugValidSpecByUrl()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="testDebugValidSpecByUrl" duration-ms="311" started-at="2017-10-10T19:23:14Z" finished-at="2017-10-10T19:23:15Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testDebugValidSpecByUrl -->
+        <test-method status="PASS" signature="testValidateInvalidSpecByContent()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="testValidateInvalidSpecByContent" duration-ms="224" started-at="2017-10-10T19:23:15Z" finished-at="2017-10-10T19:23:15Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testValidateInvalidSpecByContent -->
+        <test-method status="PASS" signature="testValidateInvalidSpecByUrl()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="testValidateInvalidSpecByUrl" duration-ms="203" started-at="2017-10-10T19:23:15Z" finished-at="2017-10-10T19:23:15Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testValidateInvalidSpecByUrl -->
+        <test-method status="PASS" signature="testValidateValidSpecByContent()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="testValidateValidSpecByContent" duration-ms="319" started-at="2017-10-10T19:23:15Z" finished-at="2017-10-10T19:23:15Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testValidateValidSpecByContent -->
+        <test-method status="PASS" signature="testValidateValidSpecByUrl()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="testValidateValidSpecByUrl" duration-ms="292" started-at="2017-10-10T19:23:15Z" finished-at="2017-10-10T19:23:16Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testValidateValidSpecByUrl -->
+        <test-method status="PASS" signature="tearDownWireMockServer()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="tearDownWireMockServer" is-config="true" duration-ms="2" started-at="2017-10-10T19:23:16Z" finished-at="2017-10-10T19:23:16Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownWireMockServer -->
+      </class> <!-- spec.validator.ValidatorTest -->
+    </test> <!-- Surefire test -->
+  </suite> <!-- Surefire suite -->
+</testng-results>

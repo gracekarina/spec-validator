@@ -1,19 +1,38 @@
 package spec.validator;
 
+
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.swagger.handler.ValidatorController;
 import io.swagger.oas.inflector.models.RequestContext;
 import io.swagger.oas.inflector.models.ResponseContext;
-import org.junit.Assert;
-import org.junit.Test;
 
+import org.apache.commons.io.FileUtils;
+
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.get;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
+
+
 
 public class ValidatorTest {
 
@@ -26,31 +45,78 @@ public class ValidatorTest {
     private static final String APPLICATION = "application";
     private static final String JSON = "json";
     private static final String INFO_MISSING = "attribute info is missing";
+    private static final String INFO_MISSING_SCHEMA = "object has missing required properties ([\"info\"])";
+
+    protected int serverPort = getDynamicPort();
+    protected WireMockServer wireMockServer;
 
 
-    @Test
-    public void testValidateValidJsonSchema() throws Exception {
+    @BeforeClass
+    private void setUpWireMockServer() throws IOException {
+        this.wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().dynamicPort());
+        this.wireMockServer.start();
+        this.serverPort = wireMockServer.port();
+        WireMock.configureFor(this.serverPort);
 
+        String pathFile = FileUtils.readFileToString(new File("src/test/resources/valid_oas3.yaml"));
+
+        WireMock.stubFor(get(urlPathMatching("/valid/yaml"))
+                .willReturn(aResponse()
+                        .withStatus(HttpURLConnection.HTTP_OK)
+                        .withHeader("Content-type", "application/yaml")
+                        .withBody(pathFile
+                                .getBytes(StandardCharsets.UTF_8))));
+
+        pathFile = FileUtils.readFileToString(new File("src/test/resources/invalid_oas3.yaml"));
+
+        WireMock.stubFor(get(urlPathMatching("/invalid/yaml"))
+                .willReturn(aResponse()
+                        .withStatus(HttpURLConnection.HTTP_OK)
+                        .withHeader("Content-type", "application/yaml")
+                        .withBody(pathFile
+                                .getBytes(StandardCharsets.UTF_8))));
 
     }
 
-    @Test
-    public void testValidateInvalidJsonSchema() throws Exception {
-
-
+    @AfterClass
+    private void tearDownWireMockServer() {
+        this.wireMockServer.stop();
     }
+
 
 
 
     @Test
     public void testValidateValidSpecByUrl() throws Exception {
+        String url = "http://localhost:${dynamicPort}/valid/yaml";
+        url = url.replace("${dynamicPort}", String.valueOf(this.serverPort));
 
+        ValidatorController validator = new ValidatorController();
+        ResponseContext response = validator.validateByUrl(new RequestContext(), url);
+
+        Assert.assertEquals(IMAGE, response.getContentType().getType());
+        Assert.assertEquals(PNG, response.getContentType().getSubtype());
+        InputStream entity = (InputStream)response.getEntity();
+        InputStream valid = this.getClass().getClassLoader().getResourceAsStream(VALID_IMAGE);
+
+        Assert.assertTrue( validateEquals(entity,valid) == true);
 
     }
 
     @Test
     public void testValidateInvalidSpecByUrl() throws Exception {
+        String url = "http://localhost:${dynamicPort}/invalid/yaml";
+        url = url.replace("${dynamicPort}", String.valueOf(this.serverPort));
 
+        ValidatorController validator = new ValidatorController();
+        ResponseContext response = validator.validateByUrl(new RequestContext(), url);
+
+        Assert.assertEquals(IMAGE, response.getContentType().getType());
+        Assert.assertEquals(PNG, response.getContentType().getSubtype());
+        InputStream entity = (InputStream)response.getEntity();
+        InputStream valid = this.getClass().getClassLoader().getResourceAsStream(INVALID_IMAGE);
+
+        Assert.assertTrue( validateEquals(entity,valid) == true);
 
     }
 
@@ -92,13 +158,34 @@ public class ValidatorTest {
 
     @Test
     public void testDebugValidSpecByUrl() throws Exception {
+        String url = "http://localhost:${dynamicPort}/valid/yaml";
+        url = url.replace("${dynamicPort}", String.valueOf(this.serverPort));
+
+
+        ValidatorController validator = new ValidatorController();
+        ResponseContext response = validator.reviewByUrl(new RequestContext(), url);
+
+        Assert.assertEquals(APPLICATION, response.getContentType().getType());
+        Assert.assertEquals(JSON, response.getContentType().getSubtype());
+        List messages = (ArrayList) response.getEntity();
+        Assert.assertTrue(messages.size() ==  0);
 
 
     }
 
     @Test
     public void testDebugInvalidSpecByUrl() throws Exception {
+        String url = "http://localhost:${dynamicPort}/invalid/yaml";
+        url = url.replace("${dynamicPort}", String.valueOf(this.serverPort));
 
+        ValidatorController validator = new ValidatorController();
+        ResponseContext response = validator.reviewByUrl(new RequestContext(), url);
+
+        Assert.assertEquals(APPLICATION, response.getContentType().getType());
+        Assert.assertEquals(JSON, response.getContentType().getSubtype());
+        List messages = (ArrayList) response.getEntity();
+        Assert.assertTrue(messages.get(0).equals(INFO_MISSING));
+        Assert.assertTrue(messages.get(1).equals(INFO_MISSING_SCHEMA));
 
     }
 
@@ -113,6 +200,8 @@ public class ValidatorTest {
         Assert.assertEquals(JSON, response.getContentType().getSubtype());
         List messages = (ArrayList) response.getEntity();
         Assert.assertTrue(messages.get(0).equals(INFO_MISSING));
+        Assert.assertTrue(messages.get(1).equals(INFO_MISSING_SCHEMA));
+
 
     }
 
@@ -126,7 +215,7 @@ public class ValidatorTest {
         Assert.assertEquals(APPLICATION, response.getContentType().getType());
         Assert.assertEquals(JSON, response.getContentType().getSubtype());
         List messages = (ArrayList) response.getEntity();
-        Assert.assertTrue(messages == null);
+        Assert.assertTrue(messages.size() ==  0);
 
     }
 
@@ -149,5 +238,8 @@ public class ValidatorTest {
         return(y == -1);
     }
 
+    private static int getDynamicPort() {
+        return new Random().ints(10000, 20000).findFirst().getAsInt();
+    }
 
 }

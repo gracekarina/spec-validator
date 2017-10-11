@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="8" failures="0" name="spec.validator.ValidatorTest" time="8.816" errors="0" skipped="0">
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="spec.validator.ValidatorTest" time="3.427" tests="8" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/jre/lib"/>
@@ -23,8 +23,7 @@
     <property name="java.endorsed.dirs" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home/jre/lib/endorsed"/>
     <property name="os.arch" value="x86_64"/>
     <property name="java.io.tmpdir" value="/var/folders/q3/qdph_59103v68478q3w51k_40000gn/T/"/>
-    <property name="line.separator" value="
-"/>
+    <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="os.name" value="Mac OS X"/>
     <property name="classworlds.conf" value="/Users/gracekarina/maven/bin/m2.conf"/>
@@ -65,12 +64,12 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="spec.validator.ValidatorTest" name="testDebugInvalidSpecByUrl" time="0.003"/>
-  <testcase classname="spec.validator.ValidatorTest" name="testDebugValidSpecByUrl" time="0"/>
-  <testcase classname="spec.validator.ValidatorTest" name="testValidateInvalidSpecByUrl" time="0"/>
-  <testcase classname="spec.validator.ValidatorTest" name="testValidateInvalidSpecByContent" time="7.366"/>
-  <testcase classname="spec.validator.ValidatorTest" name="testValidateValidSpecByUrl" time="0"/>
-  <testcase classname="spec.validator.ValidatorTest" name="testDebugValidSpecByContent" time="0.519"/>
-  <testcase classname="spec.validator.ValidatorTest" name="testValidateValidSpecByContent" time="0.482"/>
-  <testcase classname="spec.validator.ValidatorTest" name="testDebugInvalidSpecByContent" time="0.446"/>
+  <testcase name="testDebugInvalidSpecByContent" classname="spec.validator.ValidatorTest" time="1.509"/>
+  <testcase name="testDebugInvalidSpecByUrl" classname="spec.validator.ValidatorTest" time="0.272"/>
+  <testcase name="testDebugValidSpecByContent" classname="spec.validator.ValidatorTest" time="0.3"/>
+  <testcase name="testDebugValidSpecByUrl" classname="spec.validator.ValidatorTest" time="0.311"/>
+  <testcase name="testValidateInvalidSpecByContent" classname="spec.validator.ValidatorTest" time="0.223"/>
+  <testcase name="testValidateInvalidSpecByUrl" classname="spec.validator.ValidatorTest" time="0.203"/>
+  <testcase name="testValidateValidSpecByContent" classname="spec.validator.ValidatorTest" time="0.317"/>
+  <testcase name="testValidateValidSpecByUrl" classname="spec.validator.ValidatorTest" time="0.292"/>
 </testsuite>

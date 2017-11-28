@@ -1,49 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" total="8" passed="8">
+<testng-results skipped="0" failed="0" total="16" passed="16">
   <reporter-output>
   </reporter-output>
-  <suite name="Surefire suite" duration-ms="9825" started-at="2017-10-11T00:23:06Z" finished-at="2017-10-11T00:23:16Z">
+  <suite name="Surefire suite" duration-ms="16943" started-at="2017-11-28T23:35:07Z" finished-at="2017-11-28T23:35:24Z">
     <groups>
     </groups>
-    <test name="Surefire test" duration-ms="9825" started-at="2017-10-11T00:23:06Z" finished-at="2017-10-11T00:23:16Z">
+    <test name="Surefire test" duration-ms="16943" started-at="2017-11-28T23:35:07Z" finished-at="2017-11-28T23:35:24Z">
       <class name="spec.validator.ValidatorTest">
-        <test-method status="PASS" signature="setUpWireMockServer()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="setUpWireMockServer" is-config="true" duration-ms="6378" started-at="2017-10-10T19:23:06Z" finished-at="2017-10-10T19:23:12Z">
+        <test-method status="PASS" signature="setUpWireMockServer()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="setUpWireMockServer" is-config="true" duration-ms="6435" started-at="2017-11-28T18:35:07Z" finished-at="2017-11-28T18:35:13Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUpWireMockServer -->
-        <test-method status="PASS" signature="testDebugInvalidSpecByContent()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="testDebugInvalidSpecByContent" duration-ms="1509" started-at="2017-10-10T19:23:12Z" finished-at="2017-10-10T19:23:14Z">
+        <test-method status="PASS" signature="testDebugInvalid20SpecByContent()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="testDebugInvalid20SpecByContent" duration-ms="2066" started-at="2017-11-28T18:35:13Z" finished-at="2017-11-28T18:35:15Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testDebugInvalidSpecByContent -->
-        <test-method status="PASS" signature="testDebugInvalidSpecByUrl()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="testDebugInvalidSpecByUrl" duration-ms="272" started-at="2017-10-10T19:23:14Z" finished-at="2017-10-10T19:23:14Z">
+        </test-method> <!-- testDebugInvalid20SpecByContent -->
+        <test-method status="PASS" signature="testDebugInvalid20SpecByUrl()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="testDebugInvalid20SpecByUrl" duration-ms="591" started-at="2017-11-28T18:35:15Z" finished-at="2017-11-28T18:35:16Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testDebugInvalidSpecByUrl -->
-        <test-method status="PASS" signature="testDebugValidSpecByContent()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="testDebugValidSpecByContent" duration-ms="300" started-at="2017-10-10T19:23:14Z" finished-at="2017-10-10T19:23:14Z">
+        </test-method> <!-- testDebugInvalid20SpecByUrl -->
+        <test-method status="PASS" signature="testDebugInvalid30SpecByContent()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="testDebugInvalid30SpecByContent" duration-ms="711" started-at="2017-11-28T18:35:16Z" finished-at="2017-11-28T18:35:17Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testDebugValidSpecByContent -->
-        <test-method status="PASS" signature="testDebugValidSpecByUrl()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="testDebugValidSpecByUrl" duration-ms="311" started-at="2017-10-10T19:23:14Z" finished-at="2017-10-10T19:23:15Z">
+        </test-method> <!-- testDebugInvalid30SpecByContent -->
+        <test-method status="PASS" signature="testDebugInvalid30SpecByUrl()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="testDebugInvalid30SpecByUrl" duration-ms="326" started-at="2017-11-28T18:35:17Z" finished-at="2017-11-28T18:35:17Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testDebugValidSpecByUrl -->
-        <test-method status="PASS" signature="testValidateInvalidSpecByContent()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="testValidateInvalidSpecByContent" duration-ms="224" started-at="2017-10-10T19:23:15Z" finished-at="2017-10-10T19:23:15Z">
+        </test-method> <!-- testDebugInvalid30SpecByUrl -->
+        <test-method status="PASS" signature="testDebugValid20SpecByContent()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="testDebugValid20SpecByContent" duration-ms="1242" started-at="2017-11-28T18:35:17Z" finished-at="2017-11-28T18:35:18Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testValidateInvalidSpecByContent -->
-        <test-method status="PASS" signature="testValidateInvalidSpecByUrl()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="testValidateInvalidSpecByUrl" duration-ms="203" started-at="2017-10-10T19:23:15Z" finished-at="2017-10-10T19:23:15Z">
+        </test-method> <!-- testDebugValid20SpecByContent -->
+        <test-method status="PASS" signature="testDebugValid20SpecByUrl()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="testDebugValid20SpecByUrl" duration-ms="982" started-at="2017-11-28T18:35:18Z" finished-at="2017-11-28T18:35:19Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testValidateInvalidSpecByUrl -->
-        <test-method status="PASS" signature="testValidateValidSpecByContent()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="testValidateValidSpecByContent" duration-ms="319" started-at="2017-10-10T19:23:15Z" finished-at="2017-10-10T19:23:15Z">
+        </test-method> <!-- testDebugValid20SpecByUrl -->
+        <test-method status="PASS" signature="testDebugValid30SpecByContent()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="testDebugValid30SpecByContent" duration-ms="330" started-at="2017-11-28T18:35:19Z" finished-at="2017-11-28T18:35:20Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testValidateValidSpecByContent -->
-        <test-method status="PASS" signature="testValidateValidSpecByUrl()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="testValidateValidSpecByUrl" duration-ms="292" started-at="2017-10-10T19:23:15Z" finished-at="2017-10-10T19:23:16Z">
+        </test-method> <!-- testDebugValid30SpecByContent -->
+        <test-method status="PASS" signature="testDebugValid30SpecByUrl()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="testDebugValid30SpecByUrl" duration-ms="313" started-at="2017-11-28T18:35:20Z" finished-at="2017-11-28T18:35:20Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testValidateValidSpecByUrl -->
-        <test-method status="PASS" signature="tearDownWireMockServer()[pri:0, instance:spec.validator.ValidatorTest@47c62251]" name="tearDownWireMockServer" is-config="true" duration-ms="2" started-at="2017-10-10T19:23:16Z" finished-at="2017-10-10T19:23:16Z">
+        </test-method> <!-- testDebugValid30SpecByUrl -->
+        <test-method status="PASS" signature="testValidateInvalid20SpecByContent()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="testValidateInvalid20SpecByContent" duration-ms="398" started-at="2017-11-28T18:35:20Z" finished-at="2017-11-28T18:35:20Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testValidateInvalid20SpecByContent -->
+        <test-method status="PASS" signature="testValidateInvalid20SpecByUrl()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="testValidateInvalid20SpecByUrl" duration-ms="414" started-at="2017-11-28T18:35:20Z" finished-at="2017-11-28T18:35:21Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testValidateInvalid20SpecByUrl -->
+        <test-method status="PASS" signature="testValidateInvalid30SpecByContent()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="testValidateInvalid30SpecByContent" duration-ms="271" started-at="2017-11-28T18:35:21Z" finished-at="2017-11-28T18:35:21Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testValidateInvalid30SpecByContent -->
+        <test-method status="PASS" signature="testValidateInvalid30SpecByUrl()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="testValidateInvalid30SpecByUrl" duration-ms="278" started-at="2017-11-28T18:35:21Z" finished-at="2017-11-28T18:35:21Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testValidateInvalid30SpecByUrl -->
+        <test-method status="PASS" signature="testValidateValid20SpecByContent()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="testValidateValid20SpecByContent" duration-ms="925" started-at="2017-11-28T18:35:21Z" finished-at="2017-11-28T18:35:22Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testValidateValid20SpecByContent -->
+        <test-method status="PASS" signature="testValidateValid20SpecByUrl()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="testValidateValid20SpecByUrl" duration-ms="1028" started-at="2017-11-28T18:35:22Z" finished-at="2017-11-28T18:35:23Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testValidateValid20SpecByUrl -->
+        <test-method status="PASS" signature="testValidateValid30SpecByContent()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="testValidateValid30SpecByContent" duration-ms="313" started-at="2017-11-28T18:35:23Z" finished-at="2017-11-28T18:35:24Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testValidateValid30SpecByContent -->
+        <test-method status="PASS" signature="testValidateValid30SpecByUrl()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="testValidateValid30SpecByUrl" duration-ms="300" started-at="2017-11-28T18:35:24Z" finished-at="2017-11-28T18:35:24Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testValidateValid30SpecByUrl -->
+        <test-method status="PASS" signature="tearDownWireMockServer()[pri:0, instance:spec.validator.ValidatorTest@91161c7]" name="tearDownWireMockServer" is-config="true" duration-ms="1" started-at="2017-11-28T18:35:24Z" finished-at="2017-11-28T18:35:24Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDownWireMockServer -->

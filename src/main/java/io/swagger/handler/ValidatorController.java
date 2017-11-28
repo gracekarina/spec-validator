@@ -10,16 +10,15 @@ import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import io.swagger.oas.inflector.models.RequestContext;
 import io.swagger.oas.inflector.models.ResponseContext;
-//import io.swagger.parser.SwaggerParser;
-import io.swagger.parser.models.ParseOptions;
-import io.swagger.parser.models.SwaggerParseResult;
-//import io.swagger.parser.util.SwaggerDeserializationResult;
-import io.swagger.parser.v3.OpenAPIV3Parser;
+
+import io.swagger.parser.SwaggerParser;
+import io.swagger.v3.parser.core.models.SwaggerParseResult;
+import io.swagger.parser.util.SwaggerDeserializationResult;
+import io.swagger.v3.parser.OpenAPIV3Parser;
 import io.swagger.util.Json;
 import io.swagger.util.Yaml;
 import io.swagger.models.SchemaValidationError;
 import io.swagger.models.ValidationResponse;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import org.apache.http.HttpEntity;
@@ -353,12 +352,12 @@ public class ValidatorController{
                 }
             }
         }else if (specVersion.equals("2.0")) {
-           /* SwaggerDeserializationResult result = readSwagger(content);
+           SwaggerDeserializationResult result = readSwagger(content);
             if (result != null) {
                 for (String message : result.getMessages()) {
                     output.addMessage(message);
                 }
-            }*/
+            }
         }
         // do actual JSON schema validation
         JsonNode schemaObject = JsonMapper.readTree(getSchema());
@@ -428,12 +427,12 @@ public class ValidatorController{
                 }
             }
         }else if (specVersion.equals("2.0")) {
-            /*SwaggerDeserializationResult result = readSwagger(content);
+            SwaggerDeserializationResult result = readSwagger(content);
             if (result != null) {
                 for (String message : result.getMessages()) {
                     output.addMessage(message);
                 }
-            }*/
+            }
         }
 
         // do actual JSON schema validation
@@ -564,10 +563,10 @@ public class ValidatorController{
 
     }
 
-    /*private SwaggerDeserializationResult readSwagger(String content) throws IllegalArgumentException {
+    private SwaggerDeserializationResult readSwagger(String content) throws IllegalArgumentException {
         SwaggerParser parser = new SwaggerParser();
         return parser.readWithInfo(content);
-    }*/
+    }
 
     private JsonNode readNode(String text) {
         try {

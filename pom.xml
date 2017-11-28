@@ -139,16 +139,12 @@
         </dependency>
 
         <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-parser</artifactId>
-            <version>${oas-parser-version}</version>
-        </dependency>
-
-        <!--dependency>
-            <groupId>io.swagger</groupId>
+            <groupId>io.swagger.parser.v3</groupId>
             <artifactId>swagger-parser</artifactId>
             <version>${swagger-parser-version}</version>
-        </dependency-->
+        </dependency>
+
+
 
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
@@ -216,8 +212,7 @@
         <jackson.version>2.9.1</jackson.version>
         <httpclient-version>4.5.1</httpclient-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <oas-parser-version>2.0.0-SNAPSHOT</oas-parser-version>
-        <swagger-parser-version>1.0.23</swagger-parser-version>
+        <swagger-parser-version>2.0.0-SNAPSHOT</swagger-parser-version>
         <swagger-inflector-version>2.0.0-SNAPSHOT</swagger-inflector-version>
         <jetty-version>9.2.9.v20150224</jetty-version>
         <logback-version>1.0.1</logback-version>

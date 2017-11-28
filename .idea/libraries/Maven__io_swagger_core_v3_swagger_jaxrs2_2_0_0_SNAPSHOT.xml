@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: io.swagger.core.v3:swagger-jaxrs2:2.0.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/io/swagger/core/v3/swagger-jaxrs2/2.0.0-SNAPSHOT/swagger-jaxrs2-2.0.0-20171127.094142-18.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/io/swagger/core/v3/swagger-jaxrs2/2.0.0-SNAPSHOT/swagger-jaxrs2-2.0.0-20171127.094142-18-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/io/swagger/core/v3/swagger-jaxrs2/2.0.0-SNAPSHOT/swagger-jaxrs2-2.0.0-20171127.094142-18-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
